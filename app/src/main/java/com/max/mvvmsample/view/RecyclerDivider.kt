@@ -9,23 +9,20 @@ import com.max.mvvmsample.R
 
 class RecyclerDivider(
     private val context: Context,
-    type: Int
+    private val type: Type
 ) : ItemDecoration() {
 
-    companion object {
-        const val LIGHT = 0
-        const val DARK = 1
-    }
-
-    private val dividerId = when (type) {
-        DARK -> R.drawable.gray_dark_line
-        else -> R.drawable.gray_line
+    enum class Type(
+        val dividerId: Int
+    ) {
+        LIGHT(R.drawable.line_gray),
+        DARK(R.drawable.line_gray_dark)
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDraw(c, parent, state)
 
-        ContextCompat.getDrawable(context, dividerId)?.let {
+        ContextCompat.getDrawable(context, type.dividerId)?.let {
 
             val dividerLeft = parent.paddingLeft
             val dividerRight = parent.width - parent.paddingRight

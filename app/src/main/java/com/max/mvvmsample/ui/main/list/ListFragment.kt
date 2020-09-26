@@ -43,7 +43,7 @@ class ListFragment : Fragment(), KodeinAware {
             it.recycler.apply {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
-                addItemDecoration(RecyclerDivider(context, RecyclerDivider.LIGHT))
+                addItemDecoration(RecyclerDivider(context, RecyclerDivider.Type.LIGHT))
                 adapter = viewModel.adapter
             }
         }
