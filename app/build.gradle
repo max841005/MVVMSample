@@ -1,13 +1,12 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
 
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-//kotlin kapt and navigation safeargs plugin
-apply plugin: 'kotlin-kapt'
-
-apply plugin: "androidx.navigation.safeargs"
+    //kotlin kapt and navigation safeargs plugin
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+}
 
 android {
 
