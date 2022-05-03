@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.view
 
 import android.content.Context
@@ -9,33 +11,34 @@ import com.max.mvvmsample.R
 
 class RecyclerDivider(
     private val context: Context,
-    private val type: Type
+    private val color: Color
 ) : ItemDecoration() {
 
-    enum class Type(
+    private val appContext = context.applicationContext
+
+    enum class Color(
         val dividerId: Int
     ) {
-        LIGHT(R.drawable.line_gray),
-        DARK(R.drawable.line_gray_dark)
+        GRAY(R.drawable.line_gray)
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDraw(c, parent, state)
 
-        ContextCompat.getDrawable(context, type.dividerId)?.let {
+        ContextCompat.getDrawable(appContext, color.dividerId)?.let { drawable ->
 
             val dividerLeft = parent.paddingLeft
             val dividerRight = parent.width - parent.paddingRight
             val childCount = parent.childCount
 
-            for (i in 0..childCount - 2) {
+            (0..childCount - 2).forEach {
 
-                val child = parent.getChildAt(i)
+                val child = parent.getChildAt(it)
                 val params = child.layoutParams as RecyclerView.LayoutParams
                 val dividerTop = child.bottom + params.bottomMargin
-                val dividerBottom = dividerTop + it.intrinsicHeight
+                val dividerBottom = dividerTop + drawable.intrinsicHeight
 
-                it.apply { setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom) }.draw(c)
+                drawable.apply { setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom) }.draw(c)
             }
         }
     }

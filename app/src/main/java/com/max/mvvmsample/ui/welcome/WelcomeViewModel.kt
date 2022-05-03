@@ -1,29 +1,45 @@
 package com.max.mvvmsample.ui.welcome
 
-import android.os.Handler
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModel
-import com.max.mvvmsample.data.repositories.TimeRepository
 import com.max.mvvmsample.data.repositories.WelcomeRepository
+import com.max.mvvmsample.utils.toDelayTime
 
 class WelcomeViewModel(
-    private val timeRepository: TimeRepository,
     private val welcomeRepository: WelcomeRepository
 ) : ViewModel() {
 
     private var startTime = 0L
-    val sendRequestCode = welcomeRepository.sendRequestCode
 
-    val handler = Handler()
-
-    //Start time
     fun setStartTime() { startTime = System.currentTimeMillis() }
-    fun getDelayTime() = timeRepository.getDelayTime(startTime)
+    fun getDelayTime() = startTime.toDelayTime()
 
     //Permission
     val permissionArray = welcomeRepository.permissionArray
-    val isNeedAskPermission = welcomeRepository.isNeedAskPermission()
+
+    fun isNeedAskPermission() = welcomeRepository.isNeedAskPermission()
+
     fun isNeedAskPermission(
-        receiveRequestCode: Int,
         grantResults: IntArray
-    ) = welcomeRepository.isNeedAskPermission(receiveRequestCode, grantResults)
+    ) = welcomeRepository.isNeedAskPermission(grantResults)
+
+    fun isNeedAskBackgroundLocationPermission() = welcomeRepository.isNeedAskBackgroundLocationPermission()
+
+    //NotificationChannel
+    val cacheNotificationChannelIdList = mutableListOf<String>()
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getNotificationChannelList() = welcomeRepository.notificationChannelList.map { it.toNotificationChannel() }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun Pair<String, String>.toNotificationChannel() = NotificationChannel(this.first, this.second, NotificationManager.IMPORTANCE_HIGH).apply {
+        enableLights(true)
+        enableVibration(true)
+        lockscreenVisibility = NotificationCompat.VISIBILITY_PRIVATE
+        setShowBadge(true)
+    }
 }

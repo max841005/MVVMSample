@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-anydpi-v24/background_alert_dialog.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/shape_for_alert_dialog.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12777777777777777" />
+        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_alert.xml" value="0.1703125" />
+        <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/layout/fragment_list.xml" value="0.1537037037037037" />
+        <entry key="app/src/main/res/layout/item_list.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.12777777777777777" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

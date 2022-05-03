@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.data.repositories
 
 import com.max.mvvmsample.data.db.AppDatabase

@@ -4,48 +4,48 @@ import android.app.Application
 import com.max.mvvmsample.data.db.AppDatabase
 import com.max.mvvmsample.data.network.ApiService
 import com.max.mvvmsample.data.network.NetworkConnectionInterceptor
-import com.max.mvvmsample.data.permission.PermissionCheckProvider
 import com.max.mvvmsample.data.preferences.PreferenceProvider
-import com.max.mvvmsample.data.repositories.*
+import com.max.mvvmsample.data.repositories.HomeRepository
+import com.max.mvvmsample.data.repositories.ListRepository
+import com.max.mvvmsample.data.repositories.MainRepository
+import com.max.mvvmsample.data.repositories.WelcomeRepository
 import com.max.mvvmsample.data.resource.ResourceProvider
-import com.max.mvvmsample.data.time.TimeProvider
 import com.max.mvvmsample.ui.main.MainViewModelFactory
 import com.max.mvvmsample.ui.main.home.HomeViewModelFactory
 import com.max.mvvmsample.ui.main.list.ListViewModelFactory
 import com.max.mvvmsample.ui.welcome.WelcomeViewModelFactory
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
+import com.max.mvvmsample.utils.*
+import org.kodein.di.*
 import org.kodein.di.android.x.androidXModule
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
 
 @Suppress("unused")
-class MVVMApplication : Application(), KodeinAware {
+class MVVMApplication : Application(), DIAware {
 
-    override val kodein = Kodein.lazy {
+    override val di by DI.lazy {
+
         import(androidXModule(this@MVVMApplication))
 
-        bind() from singleton { ResourceProvider(instance()) }
-        bind() from singleton { PermissionCheckProvider(instance()) }
-        bind() from singleton { NetworkConnectionInterceptor(instance()) }
-        bind() from singleton { ApiService(instance()) }
-        bind() from singleton { AppDatabase(instance()) }
-        bind() from singleton { PreferenceProvider(instance()) }
-        bind() from singleton { TimeProvider() }
+        bind { singleton { ResourceProvider(instance()) } }
+        bind { singleton { TimeUtils(instance()) } }
+        bind { singleton { PermissionCheckUtils(instance()) } }
+        bind { singleton { PreferenceProvider(instance()) } }
+        bind { singleton { BroadcastUtils(instance()) } }
+        bind { singleton { NetworkConnectionInterceptor(instance()) } }
+        bind { singleton { ApiService(instance()) } }
+        bind { singleton { AppDatabase(instance()) } }
+        bind { singleton { PortraitPhotoUtils(instance()) } }
+        bind { singleton { PhotoUtils(instance()) } }
 
         //Repository
-        bind() from singleton { TimeRepository(instance()) }
-        bind() from singleton { WelcomeRepository(instance(), instance(), instance(), instance(), instance()) }
-        bind() from singleton { MainRepository(instance(), instance(), instance()) }
-        bind() from singleton { HomeRepository(instance(), instance(), instance(), instance()) }
-        bind() from singleton { ListRepository(instance(), instance(), instance(), instance()) }
+        bind { singleton { WelcomeRepository(instance(), instance(), instance(), instance()) } }
+        bind { singleton { MainRepository(instance(), instance(), instance(), instance()) } }
+        bind { singleton { HomeRepository(instance(), instance(), instance(), instance()) } }
+        bind { singleton { ListRepository(instance(), instance(), instance()) } }
 
         //Factory
-        bind() from provider { WelcomeViewModelFactory(instance(), instance()) }
-        bind() from provider { MainViewModelFactory(instance(), instance(), instance()) }
-        bind() from provider { HomeViewModelFactory(instance(), instance()) }
-        bind() from provider { ListViewModelFactory(instance()) }
+        bind { provider { WelcomeViewModelFactory(instance()) } }
+        bind { provider { MainViewModelFactory(instance()) } }
+        bind { provider { HomeViewModelFactory(instance()) } }
+        bind { provider { ListViewModelFactory(instance()) } }
     }
 }

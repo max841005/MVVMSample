@@ -1,59 +1,44 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
-import android.view.Gravity
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.PopupWindow
+import android.view.Window
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.databinding.DataBindingUtil
-import com.max.mvvmsample.R
-import com.max.mvvmsample.databinding.LayoutProgressBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.max.mvvmsample.utils.ApiConnectFailException
+import com.max.mvvmsample.utils.InputException
+import com.max.mvvmsample.utils.NoInternetException
 
 fun Context.toast(message: Int) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 fun Context.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-fun View.snackbar(message: Int) = Snackbar.make(this, message, BaseTransientBottomBar.LENGTH_LONG).apply { setAction("OK") { dismiss() } }.show()
+fun Context.toast(t: Throwable) {
 
-fun View.snackbar(message: String) = Snackbar.make(this, message, BaseTransientBottomBar.LENGTH_LONG).apply { setAction("OK") { dismiss() } }.show()
-
-fun Context.hideSoftKeyboard(rootView: View) = (this.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(rootView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-
-/**
- * @param rootView View for activity root
- * @param view View for popupWindow
- */
-fun AppCompatActivity.showPopupWindow(popupWindow: PopupWindow, rootView: View, view: View) {
-
-    popupWindow.apply {
-
-        //Set popupWindow
-        animationStyle = R.style.AlertDialogAnimation
-        isClippingEnabled = false
-    }.let {
-
-        //Show popupWindow if it isn't showing.
-        if (!it.isShowing && !isFinishing) {
-            rootView.post { it.showAtLocation(view, Gravity.CENTER, 0, 0) }
-        }
+    when (t) {
+        is NoInternetException, is ApiConnectFailException, is InputException -> t.message?.let { toast(it) }
     }
 }
 
-fun Context.progressDialog(message: Int) : AlertDialog {
+fun View.snackbar(message: Int) = Snackbar.make(this, message, BaseTransientBottomBar.LENGTH_SHORT).apply { setAction("OK") { dismiss() } }.show()
 
-    val view = View.inflate(this, R.layout.layout_progress, null).apply { systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY }
+fun View.snackbar(message: String) = Snackbar.make(this, message,
+    BaseTransientBottomBar.LENGTH_SHORT
+).apply { setAction("OK") { dismiss() } }.show()
 
-    val progressBinding : LayoutProgressBinding = DataBindingUtil.bind(view)!!
-    progressBinding.content.setText(message)
+fun View.snackbar(t: Throwable) {
 
-    return MaterialAlertDialogBuilder(this).apply {
-        setView(view)
-        setCancelable(false)
-    }.create()
+    when (t) {
+        is NoInternetException, is ApiConnectFailException, is InputException -> t.message?.let { snackbar(it) }
+    }
+}
+
+fun Window.hideSoftKeyboard() = with(WindowInsetsControllerCompat(this, findViewById(android.R.id.content))) {
+    hide(WindowInsetsCompat.Type.ime())
+    systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 }

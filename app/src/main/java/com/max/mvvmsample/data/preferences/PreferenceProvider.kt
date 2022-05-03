@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.data.preferences
 
 import android.content.Context
@@ -10,34 +12,89 @@ class PreferenceProvider(
 
     private val appContext = context.applicationContext
 
-    private val sp: SharedPreferences
-        get() = PreferenceManager.getDefaultSharedPreferences(appContext)
+    private val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
 
-    fun set(key: String, value: Int) {
+    fun set(
+        key: String,
+        value: Int
+    ) {
         sp.edit().putInt(key, value).apply()
     }
 
-    fun set(key: String, value: String) {
+    fun set(
+        key: String,
+        value: Long
+    ) {
+        sp.edit().putLong(key, value).apply()
+    }
+
+    fun set(
+        key: String,
+        value: Float
+    ) {
+        sp.edit().putFloat(key, value).apply()
+    }
+
+    fun set(
+        key: String,
+        value: String
+    ) {
         sp.edit().putString(key, value).apply()
     }
 
-    fun set(key: String, value: Boolean) {
+    fun set(
+        key: String,
+        value: Boolean
+    ) {
         sp.edit().putBoolean(key, value).apply()
     }
 
-    fun getInt(key: String): Int {
-        return sp.getInt(key, -1)
-    }
+    fun getInt(
+        key: String
+    ) = sp.getInt(key, -1)
 
-    fun getString(key: String): String {
-        return sp.getString(key, "")!!
-    }
+    fun getInt(
+        key: String,
+        default: Int
+    ) = sp.getInt(key, default)
 
-    fun getBoolean(key: String): Boolean {
-        return sp.getBoolean(key, false)
-    }
+    fun getLong(
+        key: String
+    ) = sp.getLong(key, -1L)
 
-    fun clear() : Boolean {
+    fun getLong(
+        key: String,
+        default: Long
+    ) = sp.getLong(key, default)
+
+    fun getFloat(
+        key: String
+    ) = sp.getFloat(key, -1f)
+
+    fun getFloat(
+        key: String,
+        default: Float
+    ) = sp.getFloat(key, default)
+
+    fun getString(
+        key: String
+    ) = sp.getString(key, "")!!
+
+    fun getString(
+        key: String,
+        default: String
+    ) = sp.getString(key, default)!!
+
+    fun getBoolean(
+        key: String
+    ) = sp.getBoolean(key, false)
+
+    fun getBoolean(
+        key: String,
+        default: Boolean
+    ) = sp.getBoolean(key, default)
+
+    fun clear(): Boolean {
 
         sp.edit().clear().apply()
 

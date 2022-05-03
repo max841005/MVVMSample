@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
 
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -20,7 +20,7 @@
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
-    <style name="TextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="TextButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="backgroundTint">@null</item>
@@ -29,12 +29,12 @@
         <item name="rippleColor">@android:color/darker_gray</item>
     </style>
 
-    <style name="SnackbarButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+    <style name="SnackbarButtonStyle" parent="@style/Widget.Material3.Button.TextButton.Snackbar">
         <item name="backgroundTint">@null</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="AlertDialogStyle" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+    <style name="AlertDialogStyle" parent="Theme.Material3.Light.Dialog.Alert">
         <item name="dialogCornerRadius">12dp</item>
     </style>
 

@@ -1,4 +1,4 @@
-package com.max.mvvmsample.data.bluetooth
+package com.max.mvvmsample.data.bluetooth.bleService
 
 import android.os.Binder
 

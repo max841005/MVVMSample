@@ -1,50 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.dialog.CustomAlertDialog">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialogBackgroundColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:id="@+id/dialog"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/shape_for_alert_dialog">
+            android:background="@drawable/background_alert_dialog"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.85">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="start"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:textColor="@color/dialogTitleTextColor"
-                android:textSize="20sp"
                 app:firstBaselineToTopHeight="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="標題" />
+                tools:text="Title" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="start"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:paddingBottom="20dp"
                 android:textColor="@color/dialogMessageTextColor"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 app:firstBaselineToTopHeight="28dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title"
-                tools:text="訊息" />
+                tools:text="Message" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -62,7 +67,7 @@
                     style="@style/TextButtonStyle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="是" />
+                    tools:text="Positive" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/negative"
@@ -71,13 +76,13 @@
                     android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@+id/positive"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="否"
+                    tools:text="Negative"
                     tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

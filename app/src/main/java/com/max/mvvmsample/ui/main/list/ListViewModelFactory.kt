@@ -8,6 +8,5 @@ import com.max.mvvmsample.data.repositories.ListRepository
 class ListViewModelFactory(
     private val listRepository: ListRepository
 ) : ViewModelProvider.NewInstanceFactory() {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T = ListViewModel(listRepository) as T
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = ListViewModel(listRepository) as T
 }

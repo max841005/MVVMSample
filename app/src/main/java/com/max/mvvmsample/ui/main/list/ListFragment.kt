@@ -1,97 +1,68 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.ui.main.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.max.mvvmsample.R
-import com.max.mvvmsample.data.network.response.ResponseData
+import androidx.recyclerview.widget.RecyclerView
 import com.max.mvvmsample.databinding.FragmentListBinding
+import com.max.mvvmsample.ui.base.BaseFragment
 import com.max.mvvmsample.ui.main.MainViewModel
 import com.max.mvvmsample.view.RecyclerDivider
-import kotlinx.coroutines.launch
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.kodein
-import org.kodein.di.generic.instance
+import com.max.mvvmsample.view.snackbar
+import org.kodein.di.android.x.closestDI
+import org.kodein.di.instance
 
-class ListFragment : Fragment(), KodeinAware {
+class ListFragment : BaseFragment() {
 
-    override val kodein by kodein()
+    private val appContext by lazy { requireContext().applicationContext }
+
+    override val di by closestDI()
     private val factory: ListViewModelFactory by instance()
 
     private lateinit var binding: FragmentListBinding
     private val viewModel: ListViewModel by lazy { ViewModelProvider(this, factory)[ListViewModel::class.java] }
-    private var activityViewModel: MainViewModel? = null
+    private val activityViewModel: MainViewModel by lazy { ViewModelProvider(requireActivity())[MainViewModel::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
-        binding.let {
+        binding = FragmentListBinding.inflate(inflater, container, false).apply {
 
-            it.lifecycleOwner = this
-            it.entity = viewModel.entity
+            lifecycleOwner = viewLifecycleOwner
+            click = this@ListFragment
+            entity = viewModel.entity
 
-            it.recycler.apply {
-                layoutManager = LinearLayoutManager(context)
+            with(recycler) {
+                layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)
-                addItemDecoration(RecyclerDivider(context, RecyclerDivider.Type.LIGHT))
+                addItemDecoration(RecyclerDivider(requireContext(), RecyclerDivider.Color.GRAY))
                 adapter = viewModel.adapter
             }
         }
 
-        activity?.let { activityViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
+        with(viewModel) {
+            throwMessage.observe(viewLifecycleOwner) { showThrowMessage(it) }
+        }
 
         return binding.root
     }
 
-    //TODO Get List Data
-    private fun post() {
+    private fun showThrowMessage(
+        message: String
+    ) {
 
-        viewModel.run {
+        if (message.isBlank()) return
 
-            entity.hasData.value = false
+        binding.root.snackbar(message)
 
-            adapter.run {
-                clear()
-                notifyDataSetChanged()
-            }
-        }
-
-        lifecycleScope.launch {
-
-            try {
-
-                viewModel.post().let { data ->
-
-                    viewModel.run {
-
-                        entity.hasData.value = true
-
-                        adapter.run {
-                            addAll(data.map { ListItem(it).apply { setItemClickListener(itemClickListener) }})
-                            notifyDataSetChanged()
-                        }
-                    }
-                }
-            }
-            catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private val itemClickListener = object : ListItem.ItemClickListener {
-        override fun onClick(data: ResponseData.Data) {
-
-        }
+        viewModel.throwMessage.value = ""
     }
 }

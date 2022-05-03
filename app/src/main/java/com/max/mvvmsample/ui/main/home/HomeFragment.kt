@@ -1,47 +1,41 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.ui.main.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.max.mvvmsample.R
 import com.max.mvvmsample.databinding.FragmentHomeBinding
+import com.max.mvvmsample.ui.base.BaseFragment
 import com.max.mvvmsample.ui.main.MainViewModel
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.kodein
-import org.kodein.di.generic.instance
+import org.kodein.di.android.x.closestDI
+import org.kodein.di.instance
 
-class HomeFragment : Fragment(), KodeinAware, View.OnClickListener {
+class HomeFragment : BaseFragment() {
 
-    override val kodein by kodein()
+    private val appContext by lazy { requireContext().applicationContext }
+
+    override val di by closestDI()
     private val factory: HomeViewModelFactory by instance()
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by lazy { ViewModelProvider(this, factory)[HomeViewModel::class.java] }
-    private var activityViewModel: MainViewModel? = null
+    private val activityViewModel: MainViewModel by lazy { ViewModelProvider(requireActivity())[MainViewModel::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        binding.let {
-            it.lifecycleOwner = this
-            it.click = this
-            it.entity = viewModel.entity
+        binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            click = this@HomeFragment
+            entity = viewModel.entity
         }
 
-        activity?.let { activityViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
-
         return binding.root
-    }
-
-    override fun onClick(p0: View?) {
-
     }
 }

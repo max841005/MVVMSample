@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.max.mvvmsample.ui.main.list.ListItem">
 
     <data>
 
@@ -10,8 +11,9 @@
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="data"
-            type="com.max.mvvmsample.data.network.response.ResponseData.Data" />
+            name="entity"
+            type="com.max.mvvmsample.data.entities.item.ListItemEntity" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
-            android:text="@{data.data}"
+            android:text="@{entity.data}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="內容內容內容內容內容內容內容內容內容內容內容內容" />
@@ -37,7 +39,7 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{data.data}"
+            android:text="@{entity.data}"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/title"
             tools:text="2020-02-02" />
@@ -47,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{data.data}"
+            android:text="@{entity.data}"
             app:layout_constraintBottom_toBottomOf="@+id/date"
             app:layout_constraintStart_toEndOf="@+id/date"
             app:layout_constraintTop_toTopOf="@+id/date"

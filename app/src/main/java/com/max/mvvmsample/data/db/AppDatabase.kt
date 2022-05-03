@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.max.mvvmsample.data.db.dao.DBDataDao
 import com.max.mvvmsample.data.db.entities.DBData
 
 @Database(

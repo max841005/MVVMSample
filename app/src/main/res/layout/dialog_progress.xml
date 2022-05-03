@@ -3,28 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@color/dialogBackgroundColor">
+        android:background="@color/dialogBackgroundColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:id="@+id/dialog"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/shape_for_alert_dialog"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            tools:layout_marginEnd="24dp"
-            tools:layout_marginStart="24dp">
+            android:background="@drawable/background_alert_dialog"
+            android:paddingStart="24dp"
+            android:paddingTop="32dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.85">
 
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progress_bar"
                 style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -34,16 +38,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center"
+                android:textColor="@color/dialogMessageTextColor"
                 app:layout_constraintBottom_toBottomOf="@+id/progress_bar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/progress_bar"
                 app:layout_constraintTop_toTopOf="@+id/progress_bar"
-                tools:text="讀取中…" />
+                tools:text="Loading..." />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

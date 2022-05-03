@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.data.preferences
 
 //TODO Set Preferences Key

@@ -4,6 +4,7 @@
       <w>gson</w>
       <w>kapt</w>
       <w>kodein</w>
+      <w>mvvmsample</w>
     </words>
   </dictionary>
 </component>

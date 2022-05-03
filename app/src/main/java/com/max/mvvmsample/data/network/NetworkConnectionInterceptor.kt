@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.max.mvvmsample.R
 import com.max.mvvmsample.utils.NoInternetException
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -31,32 +30,22 @@ class NetworkConnectionInterceptor(
 
         val connectivityManager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
 
-        connectivityManager?.run {
+        when {
 
-            when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
+                @Suppress("DEPRECATION")
+                connectivityManager?.activeNetworkInfo?.run { return isConnected }
+            }
 
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+            else -> connectivityManager?.getNetworkCapabilities(connectivityManager.activeNetwork)?.run {
 
-                    getNetworkCapabilities(connectivityManager.activeNetwork)?.run {
-
-                        return when {
-
-                            hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                            hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-
-                            else -> false
-                        }
-                    }
-                }
-
-                else -> {
-                    @Suppress("DEPRECATION")
-                    activeNetworkInfo?.run { return isConnected }
+                return when {
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                    else -> false
                 }
             }
         }
 
         return false
     }
-
 }

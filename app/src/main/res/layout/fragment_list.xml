@@ -9,6 +9,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="click"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="entity"
             type="com.max.mvvmsample.data.entities.ListEntity" />
     </data>

@@ -1,29 +1,34 @@
+@file:Suppress("unused")
+
 package com.max.mvvmsample.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.max.mvvmsample.R
+import com.max.mvvmsample.data.config.DATE_INTERVAL_DAY
+import com.max.mvvmsample.data.config.DATE_INTERVAL_MONTH
+import com.max.mvvmsample.data.config.DATE_INTERVAL_SEASON
+import com.max.mvvmsample.data.config.DATE_INTERVAL_WEEK
 import com.max.mvvmsample.data.entities.MainEntity
 import com.max.mvvmsample.data.repositories.MainRepository
-import com.max.mvvmsample.data.repositories.TimeRepository
-import com.max.mvvmsample.data.repositories.WelcomeRepository
+import com.max.mvvmsample.utils.*
+import java.time.LocalDate
+import java.time.YearMonth
 
 class MainViewModel(
-    private val timeRepository: TimeRepository,
-    private val welcomeRepository: WelcomeRepository,
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    val currentDate = MutableLiveData(timeRepository.getCurrentDate())
-    val entity = MainEntity(currentDate)
+    val entity = MainEntity()
+    val currentDate = MutableLiveData(LocalDate.now())
+    private var dateInterval = DATE_INTERVAL_DAY
 
     //set nowFragment
     /**
      * @param destination now destination
      */
-    fun setNowFragment(
+    fun destinationChange(
         destination: NavDestination
     ) = when (destination.id) {
 
@@ -44,23 +49,45 @@ class MainViewModel(
     }
 
     //TODO Set DatePicker Title
-    //Set date
-    fun getDatePicker() = MaterialDatePicker.Builder.datePicker().apply {
+    fun setPreviousDate() = when (dateInterval) {
+        DATE_INTERVAL_WEEK -> currentDate.value = currentDate.value!!.minusWeeks(1L)
+        DATE_INTERVAL_MONTH -> currentDate.value = currentDate.value!!.minusMonths(1L)
+        DATE_INTERVAL_SEASON -> currentDate.value = currentDate.value!!.minusMonths(3L)
+        else -> currentDate.value = currentDate.value!!.minusDays(1L)
+    }
+    fun setNextDate() = when (dateInterval) {
+        DATE_INTERVAL_WEEK -> currentDate.value = currentDate.value!!.plusWeeks(1L)
+        DATE_INTERVAL_MONTH -> currentDate.value = currentDate.value!!.plusMonths(1L)
+        DATE_INTERVAL_SEASON -> currentDate.value = currentDate.value!!.plusMonths(3L)
+        else -> currentDate.value = currentDate.value!!.plusDays(1L)
+    }
 
-        setTitleText("Please Select Date")
+    fun setDateString() = when (dateInterval) {
 
-        //Set start date
-        setSelection(getStartDateInMillis())
+        DATE_INTERVAL_WEEK -> with(entity) {
+            nextDateIsDisable.value = currentDate.value!!.isNowWeek()
+            dateString.value = currentDate.value!!.toWeekString()
+        }
 
-        //Set available date
-        setCalendarConstraints(getAvailableSelectDate())
-    }.build().apply { addOnPositiveButtonClickListener { selection -> setDate(selection) } }
-    fun setCurrentDate() = currentDate.run { value = timeRepository.getCurrentDate()  }
-    fun setPreviousDate() = currentDate.run { value = value?.let { timeRepository.getPreviousDateString(it) } }
-    fun setNextDate() = currentDate.run { value = value?.let { timeRepository.getNextDateString(it) } }
-    private fun getAvailableSelectDate() = currentDate.value?.let { timeRepository.getAvailableSelectDate(it, 2020) }
-    private fun getStartDateInMillis() = currentDate.value?.let { timeRepository.parseStringToMillis(it) }
-    private fun setDate(
-        timeInMillis: Long
-    ) = currentDate.run { value = timeRepository.formatMillisToString(timeInMillis) }
+        DATE_INTERVAL_MONTH -> YearMonth.from(currentDate.value).let {
+
+            with(entity) {
+                nextDateIsDisable.value = it == YearMonth.now()
+                dateString.value = it.toMonthString()
+            }
+        }
+
+        DATE_INTERVAL_SEASON -> with(entity) {
+            nextDateIsDisable.value = currentDate.value!!.isNowSeason()
+            dateString.value = currentDate.value!!.toSeasonString()
+        }
+
+        else -> with(entity) {
+            nextDateIsDisable.value = currentDate.value!! == LocalDate.now()
+            dateString.value = currentDate.value!!.toWeekDayEndString()
+        }
+    }
+
+    //BLE
+    fun isBluetoothEnabled() = mainRepository.isBluetoothEnabled()
 }

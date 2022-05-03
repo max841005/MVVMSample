@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.max.mvvmsample">
+    package="com.max.mvvmsample"
+    tools:ignore="LockedOrientationActivity">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -17,11 +18,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -30,31 +32,53 @@
     <application
         android:name=".MVVMApplication"
         android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup"
+        tools:targetApi="s">
+
+        <provider android:name="androidx.core.content.FileProvider"
+            android:authorities="com.max.mvvmsample.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+
+        </provider>
+
+        <service android:name=".data.bluetooth.bleService.BleService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity android:name=".ui.welcome.WelcomeActivity"
+            android:exported="true"
             android:screenOrientation="portrait">
 
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
 
         </activity>
 
         <activity android:name=".ui.main.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <service android:name=".data.bluetooth.BleService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BLUETOOTH" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
     </application>
 

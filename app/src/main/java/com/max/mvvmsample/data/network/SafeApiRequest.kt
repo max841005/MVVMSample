@@ -1,14 +1,12 @@
 package com.max.mvvmsample.data.network
 
 import com.google.gson.Gson
-import com.max.mvvmsample.data.resource.ResourceProvider
 import com.max.mvvmsample.utils.ApiConnectFailException
 import org.json.JSONObject
 import retrofit2.Call
 
-abstract class SafeApiRequest(
-    resource: ResourceProvider
-) {
+@Suppress("BlockingMethodInNonBlockingContext")
+abstract class SafeApiRequest {
 
     suspend fun<T: Any> apiRequest(call: suspend () -> Call<T>) : T = call.invoke().execute().run {
 
@@ -23,5 +21,4 @@ abstract class SafeApiRequest(
 
         body()!!
     }
-
 }
