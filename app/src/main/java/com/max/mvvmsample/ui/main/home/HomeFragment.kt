@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.max.mvvmsample.databinding.FragmentHomeBinding
 import com.max.mvvmsample.ui.base.BaseFragment
@@ -22,7 +23,7 @@ class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by lazy { ViewModelProvider(this, factory)[HomeViewModel::class.java] }
-    private val activityViewModel: MainViewModel by lazy { ViewModelProvider(requireActivity())[MainViewModel::class.java] }
+    private val activityViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
