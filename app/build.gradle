@@ -1,26 +1,26 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-parcelize")
-    id("kotlin-kapt")
-    id("androidx.navigation.safeargs.kotlin")
+    id('com.android.application')
+    id('kotlin-android')
+    id('kotlin-parcelize')
+    id('kotlin-kapt')
+    id('androidx.navigation.safeargs.kotlin')
 }
 
 android {
 
-    compileSdk 31
-    buildToolsVersion "31.0.0"
-    ndkVersion "23.1.7779620"
+    compileSdk 32
+    buildToolsVersion '31.0.0'
+    ndkVersion '23.1.7779620'
 
     defaultConfig {
 
-        applicationId "com.max.mvvmsample"
+        applicationId 'com.max.mvvmsample'
         minSdk 21
-        targetSdk 31
+        targetSdk 32
         versionCode 1
-        versionName "1.0.0"
+        versionName '1.0.0'
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -28,7 +28,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -42,7 +42,7 @@ android {
 
     kotlinOptions {
 
-        useIR = true
+        //useIR = true
 
         jvmTarget = JavaVersion.VERSION_11
     }
@@ -55,78 +55,79 @@ android {
     packagingOptions {
 
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'com.max.mvvmsample'
 }
 
 dependencies {
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring('com.android.tools:desugar_jdk_libs:1.1.8')
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation('androidx.core:core-ktx:1.8.0')
+    implementation('androidx.appcompat:appcompat:1.5.0')
+    implementation('androidx.constraintlayout:constraintlayout:2.1.4')
+    implementation('androidx.swiperefreshlayout:swiperefreshlayout:1.1.0')
+    testImplementation('junit:junit:4.13.2')
+    androidTestImplementation('androidx.test.ext:junit:1.1.3')
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0')
 
     //Retrofit and GSON
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation('com.squareup.retrofit2:retrofit:2.9.0')
+    implementation('com.squareup.retrofit2:converter-gson:2.9.0')
 
     //Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation('org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4')
+    implementation('org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4')
 
     //ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation('androidx.lifecycle:lifecycle-extensions:2.2.0')
 
     //New Material Design
-    implementation("com.google.android.material:material:1.5.0")
+    implementation('com.google.android.material:material:1.6.1')
 
     //Kodein Dependency Injection
-    implementation("org.kodein.di:kodein-di:7.10.0")
-    implementation("org.kodein.di:kodein-di-framework-android-x:7.10.0")
+    implementation('org.kodein.di:kodein-di:7.14.0')
+    implementation('org.kodein.di:kodein-di-framework-android-x:7.14.0')
 
     //Android Navigation Architecture
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
+    implementation('androidx.navigation:navigation-fragment-ktx:2.5.1')
+    implementation('androidx.navigation:navigation-ui-ktx:2.5.1')
 
     //Android Room
-    implementation("androidx.room:room-runtime:2.4.2")
-    implementation("androidx.room:room-ktx:2.4.2")
-    kapt("androidx.room:room-compiler:2.4.2")
+    implementation('androidx.room:room-runtime:2.4.3')
+    implementation('androidx.room:room-ktx:2.4.3')
+    kapt('androidx.room:room-compiler:2.4.3')
 
     //Preference
-    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation('androidx.preference:preference-ktx:1.2.0')
 
     //Data Binding
-    implementation("com.github.lisawray.groupie:groupie:2.9.0")
-    implementation("com.github.lisawray.groupie:groupie-viewbinding:2.9.0")
+    implementation('com.github.lisawray.groupie:groupie:2.9.0')
+    implementation('com.github.lisawray.groupie:groupie-viewbinding:2.9.0')
 
     //RxJava
-    implementation("io.reactivex.rxjava3:rxjava:3.1.3")
+    implementation('io.reactivex.rxjava3:rxjava:3.1.5')
 
     //Picasso
-    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation('com.squareup.picasso:picasso:2.71828')
 
     //Circle Image View
-    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation('de.hdodenhof:circleimageview:3.1.0')
 
     //MPAndroid Chart
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation('com.github.PhilJay:MPAndroidChart:v3.1.0')
 
     //Gif Drawable
-    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.24")
+    implementation('pl.droidsonroids.gif:android-gif-drawable:1.2.25')
 
     //ImageScaleView
-    implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
+    implementation('com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0')
 
     //PDF Viewer
-    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
+    implementation('com.github.barteksc:android-pdf-viewer:2.8.2')
 
     //Crop Image
-    implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
+    implementation('com.theartofdev.edmodo:android-image-cropper:2.8.0')
 }
