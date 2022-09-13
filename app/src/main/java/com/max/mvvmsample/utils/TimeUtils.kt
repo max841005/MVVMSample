@@ -73,6 +73,7 @@ fun LocalDate.isNowWeek(): Boolean = this.toFirstDateInWeek() == LocalDate.now()
 fun LocalDate.toFirstDateInWeek(): LocalDate = this.with(SUNDAY_START.dayOfWeek(), 1L)
 
 fun LocalDate.toWeekDayStartString(): String = when (dayOfWeek) {
+    null -> ""
     DayOfWeek.SUNDAY -> "週日 "
     DayOfWeek.MONDAY -> "週一 "
     DayOfWeek.TUESDAY -> "週二 "
@@ -84,6 +85,7 @@ fun LocalDate.toWeekDayStartString(): String = when (dayOfWeek) {
 
 fun LocalDate.toWeekDayEndString(): String = this.format(DATE_SHOW_FORMAT) +
         when (dayOfWeek) {
+            null -> ""
             DayOfWeek.SUNDAY -> " 週日"
             DayOfWeek.MONDAY -> " 週一"
             DayOfWeek.TUESDAY -> " 週二"
