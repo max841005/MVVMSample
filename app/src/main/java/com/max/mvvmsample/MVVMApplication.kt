@@ -18,7 +18,6 @@ import com.max.mvvmsample.utils.*
 import org.kodein.di.*
 import org.kodein.di.android.x.androidXModule
 
-@Suppress("unused")
 class MVVMApplication : Application(), DIAware {
 
     override val di by DI.lazy {

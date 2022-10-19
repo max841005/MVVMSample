@@ -5,7 +5,6 @@ import com.max.mvvmsample.utils.ApiConnectFailException
 import org.json.JSONObject
 import retrofit2.Call
 
-@Suppress("BlockingMethodInNonBlockingContext")
 abstract class SafeApiRequest {
 
     suspend fun<T: Any> apiRequest(call: suspend () -> Call<T>) : T = call.invoke().execute().run {

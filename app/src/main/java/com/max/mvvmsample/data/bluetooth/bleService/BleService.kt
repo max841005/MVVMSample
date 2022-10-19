@@ -205,15 +205,15 @@ class BleService : Service() {
             }
         }
 
-        override fun onCharacteristicChanged(
-            gatt: BluetoothGatt?,
-            characteristic: BluetoothGattCharacteristic?
+        override fun onCharacteristicRead(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            value: ByteArray,
+            status: Int
         ) {
-            super.onCharacteristicChanged(gatt, characteristic)
+            super.onCharacteristicRead(gatt, characteristic, value, status)
 
-            if (characteristic == null) return
-
-            val receiveData = characteristic.value.toHexStringArray()
+            val receiveData = value.toHexStringArray()
 
             //TODO Deal Receive Data
             Log.i("BleService", "receive data : ${receiveData.contentToString()}")
@@ -269,7 +269,16 @@ class BleService : Service() {
 
         if (descriptorList.isNullOrEmpty()) return
 
-        descriptorList.forEach { bluetoothGatt?.writeDescriptor(it.apply { value = ENABLE_NOTIFICATION_VALUE }) }
+        descriptorList.forEach {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                bluetoothGatt?.writeDescriptor(it, ENABLE_NOTIFICATION_VALUE)
+            }
+            else {
+                @Suppress("DEPRECATION")
+                bluetoothGatt?.writeDescriptor(it.apply { value = ENABLE_NOTIFICATION_VALUE })
+            }
+        }
     }
 
     fun setBleDataCallback(

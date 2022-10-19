@@ -14,7 +14,7 @@ interface ApiService {
     companion object{
 
         //TODO Set Url
-        private const val baseUrl = "url"
+        private const val baseUrl = "http://dataservice.accuweather.com/currentconditions/v1/"
 
         operator fun invoke(
             networkConnectionInterceptor: NetworkConnectionInterceptor

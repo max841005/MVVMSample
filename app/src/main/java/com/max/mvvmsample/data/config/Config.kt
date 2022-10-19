@@ -6,7 +6,7 @@ private const val PREFIX = "MVVMSample"
 
 //TODO Set Channel Id
 const val SERVICE_CHANNEL_ID = "$PREFIX service channel"
-const val SERVICE_NOTIFICATION_ID = 0
+const val SERVICE_NOTIFICATION_ID = 1
 
 const val DATE_INTERVAL_DAY = "day"
 const val DATE_INTERVAL_WEEK = "week"
