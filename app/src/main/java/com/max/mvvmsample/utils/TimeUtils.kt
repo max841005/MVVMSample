@@ -42,26 +42,26 @@ fun Long.toDelayTime(): Long = (currentTimeMillis() - this).let {
     }
 }
 
-fun Long.toLocalDateTime(): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
+fun Long.toLocalDateTime(): LocalDateTime = Instant.ofEpochMilli(this).atOffset(ZoneOffset.UTC).toLocalDateTime()
 
-
+fun LocalDate.toEpochMilli() = this.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
 
 fun LocalDate.toDatePicker(
     isLimitDate: Boolean
 ) = MaterialDatePicker.Builder
     .datePicker()
     .setTitleText("")
-    .setSelection(LocalDateTime.of(this, LocalTime.now()).toInstant(ZoneOffset.UTC).toEpochMilli())  //Set start date
+    .setSelection(this.toEpochMilli())  //Set start date
     .also { if (isLimitDate) it.setCalendarConstraints(this.toCalendarConstraints(2018)) }  //Set available date
     .build()
 
 fun LocalDate.toCalendarConstraints(
     startYear: Int
 ): CalendarConstraints = CalendarConstraints.Builder()
-    .setOpenAt(LocalDateTime.of(this, LocalTime.now()).toInstant(ZoneOffset.UTC).toEpochMilli())
+    .setOpenAt(this.toEpochMilli())
     .setValidator(
         CompositeDateValidator.allOf(listOf(
-        DateValidatorPointForward.from(LocalDateTime.of(startYear, 1, 1, 0, 0).toInstant(ZoneOffset.UTC).toEpochMilli()),
+        DateValidatorPointForward.from(LocalDate.of(startYear, 1, 1).toEpochMilli()),
         DateValidatorPointBackward.now()
     )))
     .build()

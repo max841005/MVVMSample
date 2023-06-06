@@ -20,8 +20,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.max.mvvmsample.data.bluetooth.BleDataCallback
 import com.max.mvvmsample.data.bluetooth.BleUtils
 import com.max.mvvmsample.data.config.SERVICE_CHANNEL_ID

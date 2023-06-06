@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.max.mvvmsample.databinding.FragmentListBinding
@@ -15,19 +15,16 @@ import com.max.mvvmsample.ui.base.BaseFragment
 import com.max.mvvmsample.ui.main.MainViewModel
 import com.max.mvvmsample.view.RecyclerDivider
 import com.max.mvvmsample.view.snackbar
-import org.kodein.di.android.x.closestDI
 import org.kodein.di.instance
 
 class ListFragment : BaseFragment() {
 
     private val appContext by lazy { requireContext().applicationContext }
 
-    override val di by closestDI()
-    private val factory: ListViewModelFactory by instance()
-
     private lateinit var binding: FragmentListBinding
-    private val viewModel: ListViewModel by lazy { ViewModelProvider(this, factory)[ListViewModel::class.java] }
-    private val activityViewModel: MainViewModel by activityViewModels()
+    private val factory by instance<ListViewModelFactory>()
+    private val viewModel by viewModels<ListViewModel> { factory }
+    private val activityViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

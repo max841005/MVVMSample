@@ -58,16 +58,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="gone" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/date_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="@{entity.title.length() == 0 ? View.VISIBLE : View.GONE}"
-                    app:constraint_referenced_ids="previous,date,next"
-                    tools:visibility="visible" />
+                    app:constraint_referenced_ids="previous,date,next" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/previous"
@@ -115,11 +113,10 @@
                 android:id="@+id/bottom_menu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
                 android:background="?android:attr/windowBackground"
                 app:labelVisibilityMode="labeled"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:menu="@menu/bottom_menu" />

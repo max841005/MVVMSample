@@ -10,9 +10,9 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -23,17 +23,13 @@ import com.max.mvvmsample.databinding.ActivityMainBinding
 import com.max.mvvmsample.ui.base.BaseActivity
 import com.max.mvvmsample.utils.toDatePicker
 import com.max.mvvmsample.utils.toLocalDateTime
-import org.kodein.di.android.closestDI
 import org.kodein.di.instance
 
 class MainActivity : BaseActivity() {
 
-    override val di by closestDI()
-
-    private val factory: MainViewModelFactory by instance()
-
     private val binding: ActivityMainBinding by lazy { DataBindingUtil.setContentView(this, R.layout.activity_main) }
-    private val viewModel: MainViewModel by lazy { ViewModelProvider(this, factory)[MainViewModel::class.java] }
+    private val factory: MainViewModelFactory by instance()
+    private val viewModel by viewModels<MainViewModel> { factory }
 
     private val fragment: NavHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment }
 

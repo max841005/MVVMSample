@@ -10,8 +10,11 @@ import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
 
 abstract class BaseActivityFullScreen : AppCompatActivity(), DIAware, View.OnClickListener {
+
+    override val di by closestDI()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

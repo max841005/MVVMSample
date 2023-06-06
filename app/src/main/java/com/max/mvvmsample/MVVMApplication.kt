@@ -14,9 +14,18 @@ import com.max.mvvmsample.ui.main.MainViewModelFactory
 import com.max.mvvmsample.ui.main.home.HomeViewModelFactory
 import com.max.mvvmsample.ui.main.list.ListViewModelFactory
 import com.max.mvvmsample.ui.welcome.WelcomeViewModelFactory
-import com.max.mvvmsample.utils.*
-import org.kodein.di.*
+import com.max.mvvmsample.utils.BroadcastUtils
+import com.max.mvvmsample.utils.PermissionCheckUtils
+import com.max.mvvmsample.utils.PhotoUtils
+import com.max.mvvmsample.utils.PortraitPhotoUtils
+import com.max.mvvmsample.utils.TimeUtils
+import org.kodein.di.DI
+import org.kodein.di.DIAware
 import org.kodein.di.android.x.androidXModule
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.provider
+import org.kodein.di.singleton
 
 class MVVMApplication : Application(), DIAware {
 

@@ -8,33 +8,29 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.max.mvvmsample.R
 import com.max.mvvmsample.data.repositories.WelcomeRepository.Companion.BACKGROUND_LOCATION_PERMISSION
 import com.max.mvvmsample.data.repositories.WelcomeRepository.Companion.PERMISSION
 import com.max.mvvmsample.databinding.ActivityWelcomeBinding
-import com.max.mvvmsample.ui.base.BaseActivity
+import com.max.mvvmsample.ui.base.BaseActivityFullScreen
 import com.max.mvvmsample.ui.main.MainActivity
 import com.max.mvvmsample.utils.Coroutines.main
 import com.max.mvvmsample.view.dialog.CustomAlertDialog
 import com.max.mvvmsample.view.dialog.CustomProgressDialog
 import io.reactivex.rxjava3.core.Observable
-import org.kodein.di.android.closestDI
 import org.kodein.di.instance
 import java.util.concurrent.TimeUnit
 
-class WelcomeActivity : BaseActivity() {
-
-    override val di by closestDI()
-
-    private val factory: WelcomeViewModelFactory by instance()
+class WelcomeActivity : BaseActivityFullScreen() {
 
     private val binding: ActivityWelcomeBinding by lazy { DataBindingUtil.setContentView(this, R.layout.activity_welcome) }
-    private val viewModel: WelcomeViewModel by lazy { ViewModelProvider(this, factory)[WelcomeViewModel::class.java] }
+    private val factory: WelcomeViewModelFactory by instance()
+    private val viewModel by viewModels<WelcomeViewModel> { factory }
 
     private val askPermissionAgainDialog: CustomAlertDialog by lazy {
 
